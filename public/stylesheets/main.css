@@ -1,0 +1,17 @@
+h1 {
+  font-size: 60px;
+  color: yellow;
+  text-align: center;
+}
+
+body {
+}
+
+.review {
+  font-size: 30px;
+  color: yellow;
+  border: 2px solid blue;
+  list-style-type: none;
+  border-radius: 5px;
+  float: left;
+}
