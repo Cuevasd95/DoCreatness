@@ -97,7 +97,7 @@ router.post('/register', function(req, res, next) {
       err.status = 400;
       return next(err);
     }
-})
+});
 
 // Redirect to the home route
 router.get('/', function(req, res) {
