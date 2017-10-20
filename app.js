@@ -8,8 +8,15 @@ var MongoStore = require('connect-mongo')(session);
 var app = express();
 
 //mongodb connection
+var db_name = "docreatness";
+//provide a sensible default for local development
+var mongodb_connection_string = 'mongodb://127.0.0.1:27017/' + db_name;
+//take advantage of openshift env vars when available:
+if(process.env.OPENSHIFT_MONGODB_DB_URL){
+  mongodb_connection_string = process.env.OPENSHIFT_MONGODB_DB_URL + db_name;
+}
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/docreatness', { useMongoClient: true });
+mongoose.connect(mongodb_connection_string, { useMongoClient: true });
 var db = mongoose.connection;
 //mongo error
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -67,7 +74,9 @@ app.use(function(err, req, res, next) {
   });
 });
 
-// listening to port 3000
-app.listen(3000, function () {
-  console.log('Express app listening on port 3000');
+var server_port = process.env.OPENSHIFT_NODEJS_PORT || 8080
+var server_ip_address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1'
+
+app.listen(server_port, server_ip_address, function () {
+  console.log( "Listening on " + server_ip_address + ", port " + server_port )
 });
